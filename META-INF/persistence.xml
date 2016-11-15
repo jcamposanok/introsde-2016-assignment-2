@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="HealthPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>introsde.rest.ehealth.models.Person</class>
+        <class>introsde.rest.ehealth.models.Measure</class>
+        <class>introsde.rest.ehealth.models.PersonMeasure</class>
+        <class>introsde.rest.ehealth.models.MeasureHistory</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:/git/introsde-2016-assignment-2/src/main/resources/ehealth.sqlite" />
+            <property name="eclipselink.logging.level" value="INFO" />
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+        </properties>
+    </persistence-unit>
+</persistence>
