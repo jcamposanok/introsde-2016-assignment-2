@@ -92,57 +92,57 @@ public class Person implements Serializable {
 
     public static List<Person> getAll() {
         List<Person> list = new ArrayList<>();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             list = em.createNamedQuery("Person.findAll").getResultList();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return list;
     }
 
     public static Person getById(int personId) {
         Person p = new Person();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             p = em.find(Person.class, personId);
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return p;
     }
 
     public static Person savePerson(Person p) {
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             em.persist(p);
             tx.commit();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return p;
     }
 
     public static Person updatePerson(Person p) {
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             p = em.merge(p);
             tx.commit();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return p;
     }
 
     public static void removePerson(Person p) {
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             p = em.merge(p);
             em.remove(p);
             tx.commit();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
     }
 }

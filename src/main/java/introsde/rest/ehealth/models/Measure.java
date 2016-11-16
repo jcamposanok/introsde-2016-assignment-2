@@ -43,24 +43,24 @@ public class Measure implements Serializable {
 
     public static List<Measure> getAll() {
         List<Measure> list = new ArrayList<>();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             list = em.createNamedQuery("Measure.findAll").getResultList();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return list;
     }
 
     public static Measure getByName(String name) {
         Measure m = new Measure();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             List<Measure> measureList = em.createNamedQuery("Measure.findByName")
                     .setParameter("name", name).getResultList();
             if (measureList != null) {
                 m = measureList.get(0);
             }
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return m;
     }

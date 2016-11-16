@@ -91,17 +91,17 @@ public class MeasureHistory implements Serializable {
 
     public static MeasureHistory getById(int measureHistoryId) {
         MeasureHistory h = new MeasureHistory();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             h = em.find(MeasureHistory.class, measureHistoryId);
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return h;
     }
 
     public static List<MeasureHistory> getAllByPersonAndType(int personId, String measureType) {
         List<MeasureHistory> resultList = new ArrayList<>();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             Person person = Person.getById(personId);
             Measure measure = Measure.getByName(measureType);
@@ -111,14 +111,14 @@ public class MeasureHistory implements Serializable {
                         .setParameter("measure", measure)
                         .getResultList();
             }
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return resultList;
     }
 
     public static List<MeasureHistory> getAllByDate(int personId, String measureType, Date startDate, Date endDate) {
         List<MeasureHistory> resultList = new ArrayList<>();
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             Person person = Person.getById(personId);
             Measure measure = Measure.getByName(measureType);
@@ -130,19 +130,19 @@ public class MeasureHistory implements Serializable {
                         .setParameter("before", endDate)
                         .getResultList();
             }
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return resultList;
     }
 
     public static MeasureHistory saveMeasureHistory(MeasureHistory h) {
-        EntityManager em = HealthDao.instance.createEntityManager();
+        EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             em.persist(h);
             tx.commit();
-            HealthDao.instance.closeConnections(em);
+            em.close();
         }
         return h;
     }
