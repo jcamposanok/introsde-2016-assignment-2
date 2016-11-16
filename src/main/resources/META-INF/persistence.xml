@@ -9,7 +9,7 @@
         <class>introsde.rest.ehealth.models.MeasureHistory</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:/git/introsde-2016-assignment-2/src/main/resources/ehealth.sqlite" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:${basedir}/db/ehealth.sqlite" />
             <property name="eclipselink.logging.level" value="INFO" />
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />

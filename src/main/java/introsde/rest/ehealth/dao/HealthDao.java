@@ -20,9 +20,10 @@ public enum HealthDao {
         try {
             return emf.createEntityManager();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
+            // e.printStackTrace();
         }
-        return null;
+        // return null;
     }
 
     public void closeConnections(EntityManager em) {
