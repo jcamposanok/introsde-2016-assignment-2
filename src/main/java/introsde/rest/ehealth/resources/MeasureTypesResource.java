@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @Path("measureTypes")
-public class MeasureCollectionResource {
+public class MeasureTypesResource {
     @Context
     UriInfo uriInfo;
     @Context

@@ -1,6 +1,9 @@
 package introsde.rest.ehealth.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import introsde.rest.ehealth.dao.HealthDao;
+import introsde.rest.ehealth.util.DateParser;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,6 +24,11 @@ import java.util.List;
         @NamedQuery(name = "MeasureHistory.findByPersonAndType",
                     query = "SELECT h FROM MeasureHistory h " +
                             "WHERE h.person = :person AND h.measure = :measure")
+        ,
+        @NamedQuery(name = "MeasureHistory.findByDate",
+                query = "SELECT h FROM MeasureHistory h " +
+                        "WHERE h.person = :person AND h.measure = :measure " +
+                        "AND h.created BETWEEN :after AND :before")
 })
 @XmlRootElement(name = "measure")
 public class MeasureHistory implements Serializable {
@@ -41,12 +49,20 @@ public class MeasureHistory implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name="created")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateParser.DEFAULT_FORMAT)
     private Date created;
 
     @Column(name = "value")
     private String value;
 
+    @XmlElement(name = "mid")
+    @JsonProperty("mid")
+    public int getIdMeasureHistory() {
+        return idMeasureHistory;
+    }
+
     @XmlElement(name = "name")
+    @JsonProperty("name")
     public String getMeasureName() {
         return measure.getName();
     }
@@ -93,6 +109,25 @@ public class MeasureHistory implements Serializable {
                 resultList = em.createNamedQuery("MeasureHistory.findByPersonAndType")
                         .setParameter("person", person)
                         .setParameter("measure", measure)
+                        .getResultList();
+            }
+            HealthDao.instance.closeConnections(em);
+        }
+        return resultList;
+    }
+
+    public static List<MeasureHistory> getAllByDate(int personId, String measureType, Date startDate, Date endDate) {
+        List<MeasureHistory> resultList = new ArrayList<>();
+        EntityManager em = HealthDao.instance.createEntityManager();
+        if (em != null) {
+            Person person = Person.getById(personId);
+            Measure measure = Measure.getByName(measureType);
+            if (person != null && measure != null) {
+                resultList = em.createNamedQuery("MeasureHistory.findByDate")
+                        .setParameter("person", person)
+                        .setParameter("measure", measure)
+                        .setParameter("after", startDate)
+                        .setParameter("before", endDate)
                         .getResultList();
             }
             HealthDao.instance.closeConnections(em);

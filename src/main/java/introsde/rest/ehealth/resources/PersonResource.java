@@ -45,13 +45,14 @@ public class PersonResource {
 
         Person existing = Person.getById(this.id);
         if (existing == null) {
-            res = Response.noContent().build();
+            // res = Response.noContent().build();
+            throw new RuntimeException("PUT: Person with id " + this.id + " not found");
         } else {
             res = Response.created(uriInfo.getAbsolutePath()).build();
-            person.setIdPerson(this.id);
-            // Person.updatePerson(person);
+            // person.setIdPerson(this.id);
+            Person.updatePerson(person);
         }
-        Person.updatePerson(person);
+        // Person.updatePerson(person);
 
         return res;
     }

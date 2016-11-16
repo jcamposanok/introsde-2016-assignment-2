@@ -1,6 +1,9 @@
 package introsde.rest.ehealth.models;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import introsde.rest.ehealth.dao.HealthDao;
+import introsde.rest.ehealth.util.DateParser;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,6 +33,7 @@ public class Person implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birthdate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateParser.DEFAULT_FORMAT)
     private Date birthdate;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -67,7 +71,7 @@ public class Person implements Serializable {
         this.birthdate = birthdate;
     }
     @XmlElementWrapper(name = "healthProfile")
-    @XmlElement(name = "measureType")
+    @XmlElement(name = "measure")
     public List<PersonMeasure> getHealthProfile() {
         return healthProfile;
     }

@@ -1,6 +1,7 @@
 package introsde.rest.ehealth.resources;
 
 import introsde.rest.ehealth.models.Person;
+import introsde.rest.ehealth.util.DateParser;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
@@ -35,22 +36,22 @@ public class PersonCollectionResource {
     // Requests 2, 3, 5
 
     @Path("{personId}")
-    public PersonResource getPerson(@PathParam("personId") int id) {
+    public PersonResource getPersonResource(@PathParam("personId") int id) {
         return new PersonResource(uriInfo, request, id);
     }
 
-    // Requests 6, 8
+    // Requests 6, 8, 11
 
     @Path("{personId}/{measureType}")
-    public MeasureHistoryCollectionResource getMeasureHistoryCollection(@PathParam("personId") int personId, @PathParam("measureType") String measureType) {
-        return new MeasureHistoryCollectionResource(uriInfo, request, personId, measureType);
+    public MeasureHistoryResource getMeasureHistoryResource(@PathParam("personId") int personId, @PathParam("measureType") String measureType) {
+        return new MeasureHistoryResource(uriInfo, request, personId, measureType);
     }
 
-    // Request 7
+    // Requests 7, 10
 
     @Path("{personId}/{measureType}/{mid}")
-    public MeasureHistoryResource getMeasureHistory(@PathParam("personId") int personId, @PathParam("measureType") String measureType, @PathParam("mid") int mid) {
-        return new MeasureHistoryResource(uriInfo, request, personId, measureType, mid);
+    public PersonMeasureResource getPersonMeasureResource(@PathParam("personId") int personId, @PathParam("measureType") String measureType, @PathParam("mid") int mid) {
+        return new PersonMeasureResource(uriInfo, request, personId, measureType, mid);
     }
 
     // Request 4
@@ -66,19 +67,10 @@ public class PersonCollectionResource {
         // p.setIdPerson(Person.getNextId());
         p.setLastname(lastname);
         p.setFirstname(firstname);
-
-        Date parsed;
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            parsed = format.parse(birthdate);
-        }
-        catch(ParseException pe) {
-            throw new IllegalArgumentException();
-        }
-        p.setBirthdate(parsed);
+        p.setBirthdate(new DateParser.RequestParam(birthdate).parseFromString());
 
         Person newPerson = this.newPerson(p);
-        servletResponse.sendRedirect("/");
+        servletResponse.sendRedirect("/"); // TODO: Check this redirection
     }
 
     @POST

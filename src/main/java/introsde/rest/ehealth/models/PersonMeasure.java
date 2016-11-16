@@ -1,6 +1,7 @@
 package introsde.rest.ehealth.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import introsde.rest.ehealth.dao.HealthDao;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ import java.util.List;
                 query = "SELECT pm FROM PersonMeasure pm " +
                         "WHERE pm.person = :person AND pm.measure = :measure")
 })
-@XmlRootElement(name="measureType")
+@XmlRootElement(name="measure")
 public class PersonMeasure implements Serializable {
 
     @Id
@@ -69,7 +70,8 @@ public class PersonMeasure implements Serializable {
         return created;
     }
 
-    @XmlElement(name = "measure") // Fake getter, just to display the name
+    @XmlElement(name = "name") // Fake getter, just to display the name
+    @JsonProperty("name")
     public String getMeasureName() { return measure.getName(); }
 
     public String getValue() {
@@ -91,6 +93,19 @@ public class PersonMeasure implements Serializable {
     }
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public PersonMeasure() {
+    }
+
+    public static PersonMeasure getById(int mid) {
+        PersonMeasure personMeasure = new PersonMeasure();
+        EntityManager em = HealthDao.instance.createEntityManager();
+        if (em != null) {
+            personMeasure = em.find(PersonMeasure.class, mid);
+            HealthDao.instance.closeConnections(em);
+        }
+        return personMeasure;
     }
 
     public static List<PersonMeasure> getAllByPersonAndType(int personId, String measureType) {
