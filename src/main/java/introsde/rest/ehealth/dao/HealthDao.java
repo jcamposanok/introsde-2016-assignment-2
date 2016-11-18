@@ -1,8 +1,6 @@
 package introsde.rest.ehealth.dao;
 
-import com.sun.deploy.config.Config;
 import introsde.rest.ehealth.util.HerokuDatabaseUrlParser;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,9 +15,6 @@ import java.util.Map;
 import java.util.Properties;
 
 
-/**
- * Created by JC on 16/11/2016.
- */
 @WebListener
 public class HealthDao implements ServletContextListener {
 

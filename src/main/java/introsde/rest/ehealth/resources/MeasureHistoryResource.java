@@ -99,19 +99,19 @@ public class MeasureHistoryResource {
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void newPersonMeasure(@FormParam("value") String value,
+    public void newPersonMeasure(@FormParam("value") Float value,
                           @FormParam("created") String created,
                           @Context HttpServletResponse servletResponse) throws IOException {
         PersonMeasure pm = new PersonMeasure();
         Person person = Person.getById(this.personId);
         Measure measure = Measure.getByName(this.measureType);
-        if (person != null && measure != null) {
+        if (person != null && measure != null && value != null && value >= 0) {
             pm.setPerson(person);
             pm.setMeasure(measure);
             pm.setValue(value);
             pm.setCreated(new DateParser.RequestParam(created).parseFromString());
+            this.newPersonMeasure(pm);
         }
-        PersonMeasure newPersonMeasure = this.newPersonMeasure(pm);
         servletResponse.sendRedirect("/"); // TODO: Check this redirection
     }
 

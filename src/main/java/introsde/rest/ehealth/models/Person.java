@@ -90,14 +90,16 @@ public class Person implements Serializable {
     }
 */
 
-    public static List<Person> getAll() {
-        List<Person> list = new ArrayList<>();
+    public static Set<Person> getAll() {
+        Set<Person> uniqueList = new HashSet<>();
+        List<Person> list;
         EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             list = em.createNamedQuery("Person.findAll").getResultList();
+            uniqueList.addAll(list);
             em.close();
         }
-        return list;
+        return uniqueList;
     }
 
     public static Person getById(int personId) {

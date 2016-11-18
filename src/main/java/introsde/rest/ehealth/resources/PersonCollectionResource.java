@@ -1,6 +1,8 @@
 package introsde.rest.ehealth.resources;
 
+import introsde.rest.ehealth.models.MeasureTypes;
 import introsde.rest.ehealth.models.Person;
+import introsde.rest.ehealth.models.PersonMeasure;
 import introsde.rest.ehealth.util.DateParser;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +14,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Path("person")
@@ -23,13 +24,32 @@ public class PersonCollectionResource {
     @Context
     Request request;
 
-    // Request 1
+    // Requests 1, 12
 
     @GET
     @Produces({MediaType.TEXT_XML,  MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML })
-    public List<Person> getAllPeople() {
-        System.out.println("Getting list of people...");
-        List<Person> people = Person.getAll();
+    public Set<Person> getAllPeople(@QueryParam("measureType") String measureType,
+                                     @QueryParam("min") Float min,
+                                     @QueryParam("max") Float max) {
+        Set<Person> people = new HashSet<>();
+        List<PersonMeasure> personMeasureList;
+
+        // Request 12
+        if (measureType != null) {
+            float minValue = (min == null || min <= 0) ? -1 : min;
+            float maxValue = (max == null || max <= 0) ? -1 : max;
+            System.out.println("Getting list of people with measure '" + "'");
+            personMeasureList = PersonMeasure.getAllByType(measureType, minValue, maxValue);
+            for (PersonMeasure pm : personMeasureList) {
+                people.add(pm.getPerson());
+            }
+        }
+        // Request 1
+        else {
+            System.out.println("Getting list of all people...");
+            people = Person.getAll();
+        }
+
         return people;
     }
 

@@ -53,7 +53,7 @@ public class MeasureHistory implements Serializable {
     private Date created;
 
     @Column(name = "value")
-    private String value;
+    private Float value;
 
     @XmlElement(name = "mid")
     @JsonProperty("mid")
@@ -69,7 +69,7 @@ public class MeasureHistory implements Serializable {
     public Date getCreated() {
         return created;
     }
-    public String getValue() {
+    public Float getValue() {
         return value;
     }
 
@@ -82,7 +82,7 @@ public class MeasureHistory implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
-    public void setValue(String value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 

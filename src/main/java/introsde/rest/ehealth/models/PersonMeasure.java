@@ -17,12 +17,24 @@ import java.util.List;
 @Entity
 @Table(name = "PersonMeasure")
 @NamedQueries({
-        @NamedQuery(name = "PersonMeasure.findAll", query = "SELECT l FROM PersonMeasure l") ,
+        @NamedQuery(name = "PersonMeasure.findAll", query = "SELECT l FROM PersonMeasure l"),
+        @NamedQuery(name = "PersonMeasure.findByType",
+                query = "SELECT pm FROM PersonMeasure pm " +
+                        "WHERE pm.measure = :measure"),
+        @NamedQuery(name = "PersonMeasure.findByTypeMin",
+                query = "SELECT pm FROM PersonMeasure pm " +
+                        "WHERE pm.measure = :measure AND pm.value >= :minValue"),
+        @NamedQuery(name = "PersonMeasure.findByTypeMax",
+                query = "SELECT pm FROM PersonMeasure pm " +
+                        "WHERE pm.measure = :measure AND pm.value <= :maxValue"),
+        @NamedQuery(name = "PersonMeasure.findByTypeRange",
+                query = "SELECT pm FROM PersonMeasure pm " +
+                        "WHERE pm.measure = :measure AND pm.value BETWEEN :minValue AND :maxValue"),
         @NamedQuery(name = "PersonMeasure.findByPersonAndType",
                 query = "SELECT pm FROM PersonMeasure pm " +
                         "WHERE pm.person = :person AND pm.measure = :measure")
 })
-@XmlRootElement(name="measure")
+@XmlRootElement(name = "measure")
 public class PersonMeasure implements Serializable {
 
     @Id
@@ -40,10 +52,10 @@ public class PersonMeasure implements Serializable {
     private Measure measure;
 
     @Column(name = "value")
-    private String value;
+    private Float value;
 
     @Temporal(TemporalType.DATE)
-    @Column(name="created")
+    @Column(name = "created")
     private Date created;
 
     @XmlTransient // To prevent infinite loop
@@ -72,9 +84,11 @@ public class PersonMeasure implements Serializable {
 
     @XmlElement(name = "name") // Fake getter, just to display the name
     @JsonProperty("name")
-    public String getMeasureName() { return measure.getName(); }
+    public String getMeasureName() {
+        return measure.getName();
+    }
 
-    public String getValue() {
+    public Float getValue() {
         return value;
     }
 
@@ -82,15 +96,19 @@ public class PersonMeasure implements Serializable {
     public void setIdPersonMeasure(int idPersonMeasure) {
         this.idPersonMeasure = idPersonMeasure;
     }
+
     public void setPerson(Person person) {
         this.person = person;
     }
+
     public void setMeasure(Measure measure) {
         this.measure = measure;
     }
-    public void setValue(String value) {
+
+    public void setValue(Float value) {
         this.value = value;
     }
+
     public void setCreated(Date created) {
         this.created = created;
     }
@@ -106,6 +124,42 @@ public class PersonMeasure implements Serializable {
             em.close();
         }
         return personMeasure;
+    }
+
+    public static List<PersonMeasure> getAllByType(String measureType, float minValue, float maxValue) {
+        List<PersonMeasure> resultList = new ArrayList<>();
+        EntityManager em = HealthDao.createEntityManager();
+        if (em != null) {
+            Measure measure = Measure.getByName(measureType);
+            if (measure != null) {
+                if (minValue >= 0 && maxValue >= 0) {
+                    resultList = em.createNamedQuery("PersonMeasure.findByTypeRange")
+                            .setParameter("measure", measure)
+                            .setParameter("minValue", minValue)
+                            .setParameter("maxValue", maxValue)
+                            .getResultList();
+                }
+                else if (minValue >= 0) {
+                    resultList = em.createNamedQuery("PersonMeasure.findByTypeMin")
+                            .setParameter("measure", measure)
+                            .setParameter("minValue", minValue)
+                            .getResultList();
+                }
+                else if (maxValue >= 0) {
+                    resultList = em.createNamedQuery("PersonMeasure.findByTypeMax")
+                            .setParameter("measure", measure)
+                            .setParameter("maxValue", maxValue)
+                            .getResultList();
+                }
+                else {
+                    resultList = em.createNamedQuery("PersonMeasure.findByType")
+                            .setParameter("measure", measure)
+                            .getResultList();
+                }
+            }
+            em.close();
+        }
+        return resultList;
     }
 
     public static List<PersonMeasure> getAllByPersonAndType(int personId, String measureType) {
