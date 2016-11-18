@@ -34,7 +34,7 @@ import java.util.List;
                 query = "SELECT pm FROM PersonMeasure pm " +
                         "WHERE pm.person = :person AND pm.measure = :measure")
 })
-@XmlRootElement(name = "measure")
+@XmlRootElement
 public class PersonMeasure implements Serializable {
 
     @Id

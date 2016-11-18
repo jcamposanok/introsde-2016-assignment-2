@@ -7,16 +7,13 @@ import introsde.rest.ehealth.util.DateParser;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by JC on 15/11/2016.
- */
+
 @Entity
 @Table(name="MeasureHistory")
 @NamedQueries({

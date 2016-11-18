@@ -2,6 +2,8 @@ package introsde.rest.ehealth.models;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import introsde.rest.ehealth.dao.HealthDao;
 import introsde.rest.ehealth.util.DateParser;
 
@@ -70,8 +72,10 @@ public class Person implements Serializable {
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
+
     @XmlElementWrapper(name = "healthProfile")
     @XmlElement(name = "measure")
+    @JsonProperty("healthProfile")
     public List<PersonMeasure> getHealthProfile() {
         return healthProfile;
     }
