@@ -4,10 +4,7 @@ import introsde.rest.ehealth.models.MeasureHistory;
 import introsde.rest.ehealth.models.Person;
 import introsde.rest.ehealth.models.PersonMeasure;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
 
@@ -64,7 +61,7 @@ public class PersonMeasureResource {
         PersonMeasure existing = PersonMeasure.getById(this.mid);
         if (existing == null) {
             // res = Response.noContent().build();
-            throw new RuntimeException("PUT: Health profile entry with mid " + this.mid + " not found");
+            throw new NotFoundException("PUT: Health profile entry with mid " + this.mid + " not found");
         } else {
             res = Response.created(uriInfo.getAbsolutePath()).build();
             PersonMeasure.updatePersonMeasure(personMeasure);

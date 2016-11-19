@@ -3,6 +3,7 @@ package introsde.rest.ehealth.models;
 import introsde.rest.ehealth.dao.HealthDao;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +28,7 @@ public class Measure implements Serializable {
     private int idMeasure;
 
     @Column(name="name")
+    @NotNull
     private String name;
 
     @OneToMany(mappedBy = "measure", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

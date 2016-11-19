@@ -31,7 +31,7 @@ public class PersonResource {
     public Person getPerson() {
         Person person = Person.getById(this.id);
         if (person == null) {
-            throw new RuntimeException("GET: Person with id " + this.id + " not found");
+            throw new NotFoundException("GET: Person with id " + this.id + " not found");
         }
         return person;
     }

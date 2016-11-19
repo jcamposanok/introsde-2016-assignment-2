@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import introsde.rest.ehealth.dao.HealthDao;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -40,7 +41,7 @@ public class PersonMeasure implements Serializable {
 
     @Id
     @GeneratedValue(generator = "sqlite_personmeasure")
-    @TableGenerator(name = "sqlite_personmeasure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "PersonMeasure", allocationSize = 1)
+    @TableGenerator(name = "sqlite_personmeasure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "PersonMeasure", allocationSize = 10)
     @Column(name = "idPersonMeasure")
     private int idPersonMeasure;
 
@@ -53,6 +54,7 @@ public class PersonMeasure implements Serializable {
     private Measure measure;
 
     @Column(name = "value")
+    @NotNull
     private Float value;
 
     @Temporal(TemporalType.DATE)

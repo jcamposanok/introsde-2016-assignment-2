@@ -32,7 +32,7 @@ public class MeasureHistory implements Serializable {
 
     @Id
     @GeneratedValue(generator = "sqlite_measurehistory")
-    @TableGenerator(name = "sqlite_measurehistory", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "MeasureHistory", allocationSize = 1)
+    @TableGenerator(name = "sqlite_measurehistory", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "MeasureHistory", allocationSize = 10)
     @Column(name = "idMeasureHistory")
     private int idMeasureHistory;
 

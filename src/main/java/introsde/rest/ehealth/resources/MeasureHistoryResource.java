@@ -67,7 +67,7 @@ public class MeasureHistoryResource {
             measureHistory = this.getMeasureHistoryByDate(before, after);
         }
         if (measureHistory == null || measureHistory.size() < 1) {
-            throw new RuntimeException("GET: Measure '" + this.measureType + "' history for person with id " + this.personId + " not found");
+            throw new NotFoundException("GET: Measure '" + this.measureType + "' history for person with id " + this.personId + " not found");
         }
 
         return measureHistory;
@@ -87,7 +87,7 @@ public class MeasureHistoryResource {
             measureHistory = this.getMeasureHistoryByDate(before, after);
         }
         if (measureHistory == null || measureHistory.size() < 1) {
-            throw new RuntimeException("GET: Measure '" + this.measureType + "' history for person with id " + this.personId + " not found");
+            throw new NotFoundException("GET: Measure '" + this.measureType + "' history for person with id " + this.personId + " not found");
         }
 
         response.setMeasureHistory(measureHistory);
