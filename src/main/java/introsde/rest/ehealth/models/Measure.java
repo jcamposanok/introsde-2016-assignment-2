@@ -22,12 +22,15 @@ public class Measure implements Serializable {
 
     @Id
     @GeneratedValue(generator = "sqlite_measure")
-    @TableGenerator(name = "sqlite_measure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Measure")
+    @TableGenerator(name = "sqlite_measure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Measure", allocationSize = 1)
     @Column(name = "idMeasure")
     private int idMeasure;
 
     @Column(name="name")
     private String name;
+
+    @OneToMany(mappedBy = "measure", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PersonMeasure> healthProfile;
 
     public int getIdMeasure() {
         return idMeasure;

@@ -1,5 +1,6 @@
 package introsde.rest.ehealth.resources;
 
+import introsde.rest.ehealth.models.Measure;
 import introsde.rest.ehealth.models.MeasureTypes;
 import introsde.rest.ehealth.models.Person;
 import introsde.rest.ehealth.models.PersonMeasure;
@@ -97,7 +98,27 @@ public class PersonCollectionResource {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Person newPerson(Person person) throws IOException {
+        List<PersonMeasure> healthProfile;
+
         System.out.println("Creating new person...");
-        return Person.savePerson(person);
+        Person newPerson = Person.savePerson(person);
+        healthProfile = newPerson.getHealthProfile();
+
+        if (healthProfile != null && healthProfile.size() > 0) {
+            System.out.println("Creating health profile for the new person...");
+            for (int i = 0; i < healthProfile.size(); i++) {
+                PersonMeasure pm = healthProfile.get(i);
+                pm.setMeasureName(pm.getMeasureName());
+                pm.setPerson(newPerson);
+                if (pm.getCreated() == null) {
+                    pm.setCreated(new DateParser.RequestParam().parseFromString());
+                }
+                pm = PersonMeasure.updatePersonMeasure(pm);
+                healthProfile.set(i, pm);
+            }
+            newPerson.setHealthProfile(healthProfile);
+        }
+
+        return newPerson;
     }
 }

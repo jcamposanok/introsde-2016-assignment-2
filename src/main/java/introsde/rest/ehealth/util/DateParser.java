@@ -16,7 +16,7 @@ public @interface DateParser {
         private final String dateString;
 
         public RequestParam() {
-            this.dateString = DEFAULT_START_DATE;
+            this("");
         }
 
         public RequestParam(String dateString) {
@@ -24,22 +24,19 @@ public @interface DateParser {
         }
 
         public Date parseFromString() {
-            Date parsed;
-            try {
-                SimpleDateFormat format = new SimpleDateFormat(DEFAULT_FORMAT);
-                parsed = format.parse(dateString);
-            }
-            catch(ParseException pe) {
-                throw new IllegalArgumentException();
-            }
-            return parsed;
+            return parseFromString(DEFAULT_FORMAT);
         }
 
         public Date parseFromString(String formatString) {
             Date parsed;
             try {
                 SimpleDateFormat format = new SimpleDateFormat(formatString);
-                parsed = format.parse(dateString);
+                if (dateString.length() > 0) {
+                    parsed = format.parse(dateString);
+                }
+                else {
+                    parsed = new Date();
+                }
             }
             catch(ParseException pe) {
                 throw new IllegalArgumentException();

@@ -35,20 +35,21 @@ import java.util.List;
                         "WHERE pm.person = :person AND pm.measure = :measure")
 })
 @XmlRootElement
+// @IdClass(PersonMeasureId.class)
 public class PersonMeasure implements Serializable {
 
     @Id
     @GeneratedValue(generator = "sqlite_personmeasure")
-    @TableGenerator(name = "sqlite_personmeasure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "PersonMeasure")
+    @TableGenerator(name = "sqlite_personmeasure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "PersonMeasure", allocationSize = 1)
     @Column(name = "idPersonMeasure")
     private int idPersonMeasure;
 
     @ManyToOne
-    @JoinColumn(name = "idPerson", referencedColumnName = "idPerson", insertable = true, updatable = true)
+    @JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "idMeasure", referencedColumnName = "idMeasure", insertable = true, updatable = true)
+    @JoinColumn(name = "idMeasure", referencedColumnName = "idMeasure")
     private Measure measure;
 
     @Column(name = "value")
@@ -57,6 +58,9 @@ public class PersonMeasure implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "created")
     private Date created;
+
+    @Transient
+    private String measureName;
 
     @XmlTransient // To prevent infinite loop
     @JsonIgnore
@@ -82,10 +86,19 @@ public class PersonMeasure implements Serializable {
         return created;
     }
 
-    @XmlElement(name = "name") // Fake getter, just to display the name
+    @XmlElement(name = "name") // Fake getter to retrieve the measure name
     @JsonProperty("name")
     public String getMeasureName() {
-        return measure.getName();
+        if (measure != null) {
+            return measure.getName();
+        }
+        return measureName;
+    }
+    public void setMeasureName(String name) { // Fake setter, to map back the measure
+        Measure m = Measure.getByName(name);
+        if (m != null) {
+            this.setMeasure(m);
+        }
     }
 
     public Float getValue() {
@@ -103,6 +116,7 @@ public class PersonMeasure implements Serializable {
 
     public void setMeasure(Measure measure) {
         this.measure = measure;
+        this.measureName = measure.getName();
     }
 
     public void setValue(Float value) {
@@ -181,7 +195,7 @@ public class PersonMeasure implements Serializable {
 
     public static PersonMeasure savePersonMeasure(PersonMeasure pm) {
         EntityManager em = HealthDao.createEntityManager();
-        if (em != null) {
+        if (em != null && pm.getPerson() != null && pm.getMeasure() != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             em.persist(pm);
@@ -193,7 +207,7 @@ public class PersonMeasure implements Serializable {
 
     public static PersonMeasure updatePersonMeasure(PersonMeasure pm) {
         EntityManager em = HealthDao.createEntityManager();
-        if (em != null) {
+        if (em != null && pm.getPerson() != null && pm.getMeasure() != null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             pm = em.merge(pm);

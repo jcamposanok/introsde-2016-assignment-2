@@ -23,7 +23,7 @@ public class Person implements Serializable {
 
     @Id
     @GeneratedValue(generator = "sqlite_person")
-    @TableGenerator(name = "sqlite_person", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Person")
+    @TableGenerator(name = "sqlite_person", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Person", allocationSize = 1)
     @Column(name = "idPerson")
     private int idPerson;
 
