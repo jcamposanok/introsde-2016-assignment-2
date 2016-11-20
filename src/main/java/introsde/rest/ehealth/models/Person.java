@@ -1,9 +1,7 @@
 package introsde.rest.ehealth.models;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import introsde.rest.ehealth.dao.HealthDao;
 import introsde.rest.ehealth.util.DateParser;
 
@@ -45,12 +43,11 @@ public class Person implements Serializable {
     }
 
     // Getters and setters
-    /*
-    // This is commented so it won't appear in the response
+    @XmlElement(name = "id")
+    @JsonProperty("id")
     public int getIdPerson() {
         return idPerson;
     }
-    */
     public void setIdPerson(int idPerson) {
         this.idPerson = idPerson;
     }
@@ -94,16 +91,14 @@ public class Person implements Serializable {
     }
 */
 
-    public static Set<Person> getAll() {
-        Set<Person> uniqueList = new HashSet<>();
-        List<Person> list;
+    public static List<Person> getAll() {
+        List<Person> list = new ArrayList<>();
         EntityManager em = HealthDao.createEntityManager();
         if (em != null) {
             list = em.createNamedQuery("Person.findAll").getResultList();
-            uniqueList.addAll(list);
             em.close();
         }
-        return uniqueList;
+        return list;
     }
 
     public static Person getById(int personId) {

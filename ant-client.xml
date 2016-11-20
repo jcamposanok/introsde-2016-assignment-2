@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="introsde-2016-assignment-2" default="execute.client" basedir=".">
+    <property file="${basedir}/src/main/resources/project.properties"/>
+    <property name="env" value="local"/>
+    <property name="buildpath" value="${basedir}/target/${ant.project.name}" />
+
+    <target name="execute.client">
+        <java classname="introsde.client.Test" classpath="${buildpath}/WEB-INF/classes">
+            <arg value="${env}"/>
+            <classpath>
+                <fileset dir="${buildpath}/WEB-INF/lib">
+                    <include name="**/*.jar" />
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+</project>

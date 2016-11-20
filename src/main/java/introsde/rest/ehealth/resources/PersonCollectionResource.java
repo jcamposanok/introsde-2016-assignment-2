@@ -28,11 +28,11 @@ public class PersonCollectionResource {
     // Requests 1, 12
 
     @GET
-    @Produces({MediaType.TEXT_XML,  MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML })
-    public Set<Person> getAllPeople(@QueryParam("measureType") String measureType,
+    @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public List<Person> getAllPeople(@QueryParam("measureType") String measureType,
                                      @QueryParam("min") Float min,
                                      @QueryParam("max") Float max) {
-        Set<Person> people = new HashSet<>();
+        List<Person> people = new ArrayList<>();
         List<PersonMeasure> personMeasureList;
 
         // Request 12
@@ -108,13 +108,17 @@ public class PersonCollectionResource {
             System.out.println("Creating health profile for the new person...");
             for (int i = 0; i < healthProfile.size(); i++) {
                 PersonMeasure pm = healthProfile.get(i);
-                pm.setMeasureName(pm.getMeasureName());
-                pm.setPerson(newPerson);
-                if (pm.getCreated() == null) {
-                    pm.setCreated(new DateParser.RequestParam().parseFromString());
+                Measure m = Measure.getByName(pm.getMeasureName());
+                if (m != null) {
+                    pm.setMeasure(m);
+                    // pm.setMeasureName(pm.getMeasureName());
+                    pm.setPerson(newPerson);
+                    if (pm.getCreated() == null) {
+                        pm.setCreated(new DateParser.RequestParam().parseFromString());
+                    }
+                    pm = PersonMeasure.updatePersonMeasure(pm);
+                    healthProfile.set(i, pm);
                 }
-                pm = PersonMeasure.updatePersonMeasure(pm);
-                healthProfile.set(i, pm);
             }
             newPerson.setHealthProfile(healthProfile);
         }

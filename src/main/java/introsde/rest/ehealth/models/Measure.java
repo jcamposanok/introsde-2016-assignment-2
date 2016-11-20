@@ -4,8 +4,6 @@ import introsde.rest.ehealth.dao.HealthDao;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,18 +25,12 @@ public class Measure implements Serializable {
     @Column(name = "idMeasure")
     private int idMeasure;
 
-    @Column(name="name")
     @NotNull
     private String name;
 
     @OneToMany(mappedBy = "measure", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PersonMeasure> healthProfile;
 
-    public int getIdMeasure() {
-        return idMeasure;
-    }
-
-    @XmlElement(name = "measureType")
     public String getName() {
         return name;
     }

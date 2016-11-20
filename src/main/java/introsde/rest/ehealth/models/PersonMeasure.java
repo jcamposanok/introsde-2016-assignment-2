@@ -82,7 +82,7 @@ public class PersonMeasure implements Serializable {
         return idPersonMeasure;
     }
 
-    @XmlTransient // to hide this
+    @XmlTransient // To hide this
     @JsonIgnore
     public Date getCreated() {
         return created;
@@ -96,13 +96,14 @@ public class PersonMeasure implements Serializable {
         }
         return measureName;
     }
+    /*
     public void setMeasureName(String name) { // Fake setter, to map back the measure
         Measure m = Measure.getByName(name);
         if (m != null) {
             this.setMeasure(m);
         }
     }
-
+    */
     public Float getValue() {
         return value;
     }

@@ -31,11 +31,20 @@ public class MeasureTypesResource {
     // Request 9
 
     @GET
-    @Produces({MediaType.TEXT_XML,  MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML })
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public MeasureTypes getAllMeasureTypes() {
         System.out.println("Getting list of measures...");
         MeasureTypes measureTypes = new MeasureTypes();
         measureTypes.setMeasureTypes(Measure.getAll());
         return measureTypes;
     }
+
+    /*
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Measure> getAllMeasureTypes() {
+        System.out.println("Getting list of measures...");
+        return Measure.getAll();
+    }
+    */
 }

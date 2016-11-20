@@ -10,17 +10,14 @@ import java.util.*;
 @JsonRootName("measureTypes")
 public class MeasureTypes {
 
-    private List<String> measureTypes;
+    private List<Measure> measureTypes;
 
     @XmlElement(name = "measureType")
-    public List<String> getMeasureTypes() {
+    public List<Measure> getMeasureTypes() {
         return measureTypes;
     }
 
     public void setMeasureTypes(List<Measure> measureTypes) {
-        this.measureTypes = new ArrayList<>();
-        for (Measure m : measureTypes) {
-            this.measureTypes.add(m.getName());
-        }
+        this.measureTypes = measureTypes;
     }
 }

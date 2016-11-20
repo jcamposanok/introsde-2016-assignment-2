@@ -20,7 +20,7 @@
 
     <properties>
         <eclipselink.version>2.5.1</eclipselink.version>
-        <jersey2.version>2.19</jersey2.version>
+        <jersey2.version>2.24</jersey2.version>
         <jaxrs.version>2.0.1</jaxrs.version>
         <sqlite.version>3.14.2</sqlite.version>
         <postgresql.version>9.4.1212</postgresql.version>
@@ -31,8 +31,34 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
+            <version>7.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!--dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency-->
+
+        <!--dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.12</version>
+        </dependency-->
+
+        <!-- JAXB support for standalone client app -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.2.11</version>
         </dependency>
 
         <!-- JAX-RS -->
@@ -80,20 +106,14 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.11</version>
-        </dependency>
-
-        <!--dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <version>${jersey2.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
-            <artifactId>jersey-guava</artifactId>
-            <version>2.6</version>
-        </dependency-->
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey2.version}</version>
+        </dependency>
 
         <!-- SQLiteJDBC -->
         <dependency>
@@ -110,12 +130,6 @@
         </dependency>
 
         <!-- eclipselink -->
-        <!--dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency-->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
