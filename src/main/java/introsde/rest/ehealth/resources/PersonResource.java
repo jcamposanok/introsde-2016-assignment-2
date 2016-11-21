@@ -1,12 +1,14 @@
 package introsde.rest.ehealth.resources;
 
+import introsde.rest.ehealth.models.HealthProfileItem;
 import introsde.rest.ehealth.models.Measure;
 import introsde.rest.ehealth.models.Person;
-import introsde.rest.ehealth.models.PersonMeasure;
+import introsde.rest.ehealth.representations.PersonRepresentation;
 import introsde.rest.ehealth.util.DateParser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -31,56 +33,42 @@ public class PersonResource {
     public Response getPerson() {
         Person person = Person.getById(this.id);
         if (person == null) {
-            // throw new NotFoundException("GET: Person with id " + this.id + " not found");
-            return Response.status(Response.Status.NOT_FOUND).entity("GET: Person with id " + this.id + " not found").build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode())
+                    .entity("GET: Person with id " + this.id + " not found").build();
         }
-        return Response.ok().entity(person).build();
+        PersonRepresentation entity = new PersonRepresentation(person);
+        return Response.ok().entity(entity).build();
     }
 
     // Request 3
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response putPerson(Person person) {
+    public Response putPerson(PersonRepresentation entity) {
         System.out.println("--> Updating person with id " + this.id);
-        System.out.println("--> " + person.toString());
+        System.out.println("--> " + entity.toString());
 
-        Response res = Response.notModified().build();
+        Response res;
 
-        person.setIdPerson(this.id);
-        Person existing = Person.getById(this.id);
+        Person existingPerson = Person.getById(this.id);
+        if (existingPerson == null) {
+            Person newPerson = new Person();
+            newPerson.setPersonId(this.id);
+            newPerson.setLastname(entity.getLastname());
+            newPerson.setFirstname(entity.getFirstname());
+            newPerson.setBirthdate(entity.getBirthdate());
+            newPerson = Person.savePerson(newPerson);
 
-        if (existing == null) {
-
-            Person newPerson = Person.savePerson(person);
-            List<PersonMeasure> healthProfile = newPerson.getHealthProfile();
-
-            if (healthProfile != null && healthProfile.size() > 0) {
-                System.out.println("Creating health profile for the new person...");
-                for (int i = 0; i < healthProfile.size(); i++) {
-                    PersonMeasure pm = healthProfile.get(i);
-                    Measure m = Measure.getByName(pm.getMeasureName());
-                    if (m != null) {
-                        pm.setMeasure(m);
-                        // pm.setMeasureName(pm.getMeasureName());
-                        pm.setPerson(newPerson);
-                        if (pm.getCreated() == null) {
-                            pm.setCreated(new DateParser.RequestParam().parseFromString());
-                        }
-                        pm = PersonMeasure.updatePersonMeasure(pm);
-                        healthProfile.set(i, pm);
-                    }
-                }
-                newPerson.setHealthProfile(healthProfile);
-
-                res = Response.created(uriInfo.getAbsolutePath()).entity(newPerson).build();
-            }
-            // throw new RuntimeException("PUT: Person with id " + this.id + " not found");
-            // res = Response.notModified("PUT: Person with id " + this.id + " not found").build();
+            PersonRepresentation newEntity = new PersonRepresentation(newPerson);
+            res = Response.created(uriInfo.getAbsolutePath()).entity(newEntity).build();
         } else {
-            person.setHealthProfile(existing.getHealthProfile()); // Do not update
-            Person updatedPerson = Person.updatePerson(person);
-            res = Response.ok().entity(updatedPerson).build();
+            existingPerson.setLastname(entity.getLastname());
+            existingPerson.setFirstname(entity.getFirstname());
+            existingPerson.setBirthdate(entity.getBirthdate());
+            Person updatedPerson = Person.updatePerson(existingPerson);
+
+            PersonRepresentation updatedEntity = new PersonRepresentation(updatedPerson);
+            res = Response.ok().entity(updatedEntity).build();
         }
 
         return res;
@@ -92,9 +80,13 @@ public class PersonResource {
     public Response deletePerson() {
         Person p = Person.getById(this.id);
         if (p == null) {
-            throw new NotFoundException("DELETE: Person with " + this.id + " not found");
+            return Response
+                    .status(Response.Status.NOT_FOUND.getStatusCode())
+                    .entity("DELETE: Person with " + this.id + " not found")
+                    .build();
         }
         Person.removePerson(p);
-        return Response.ok().entity(p).build();
+        PersonRepresentation entity = new PersonRepresentation(p);
+        return Response.ok().entity(entity).build();
     }
 }

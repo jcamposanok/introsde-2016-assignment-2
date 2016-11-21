@@ -5,8 +5,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>introsde.rest.ehealth.models.Person</class>
         <class>introsde.rest.ehealth.models.Measure</class>
-        <class>introsde.rest.ehealth.models.PersonMeasure</class>
-        <class>introsde.rest.ehealth.models.MeasureHistory</class>
+        <class>introsde.rest.ehealth.models.HealthProfileItem</class>
         <properties>
             <!--property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
             <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:${basedir}/db/ehealth.sqlite" /-->

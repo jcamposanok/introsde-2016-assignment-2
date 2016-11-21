@@ -1,6 +1,7 @@
-package introsde.rest.ehealth.models;
+package introsde.rest.ehealth.representations;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import introsde.rest.ehealth.models.Measure;
 
 import javax.xml.bind.annotation.*;
 import java.util.*;
@@ -8,7 +9,7 @@ import java.util.*;
 
 @XmlRootElement(name = "measureTypes")
 @JsonRootName("measureTypes")
-public class MeasureTypes {
+public class MeasureTypesRepresentation {
 
     private List<Measure> measureTypes;
 

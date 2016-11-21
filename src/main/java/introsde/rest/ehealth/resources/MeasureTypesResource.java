@@ -1,24 +1,13 @@
 package introsde.rest.ehealth.resources;
 
 import introsde.rest.ehealth.models.Measure;
-import introsde.rest.ehealth.models.MeasureTypes;
-import introsde.rest.ehealth.models.Person;
+import introsde.rest.ehealth.representations.MeasureTypesRepresentation;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 
 @Path("measureTypes")
@@ -32,9 +21,9 @@ public class MeasureTypesResource {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public MeasureTypes getAllMeasureTypes() {
+    public MeasureTypesRepresentation getAllMeasureTypes() {
         System.out.println("Getting list of measures...");
-        MeasureTypes measureTypes = new MeasureTypes();
+        MeasureTypesRepresentation measureTypes = new MeasureTypesRepresentation();
         measureTypes.setMeasureTypes(Measure.getAll());
         return measureTypes;
     }

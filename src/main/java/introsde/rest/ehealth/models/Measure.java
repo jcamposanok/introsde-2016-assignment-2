@@ -1,10 +1,12 @@
 package introsde.rest.ehealth.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import introsde.rest.ehealth.dao.HealthDao;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +24,20 @@ public class Measure implements Serializable {
     @Id
     @GeneratedValue(generator = "sqlite_measure")
     @TableGenerator(name = "sqlite_measure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Measure", allocationSize = 1)
-    @Column(name = "idMeasure")
-    private int idMeasure;
+    @Column(name = "measureId")
+    private int measureId;
 
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "measure", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<PersonMeasure> healthProfile;
+    @OneToMany(mappedBy = "measure", fetch = FetchType.EAGER)
+    private List<HealthProfileItem> measureHistory;
+
+    @XmlTransient
+    @JsonIgnore
+    public int getMeasureId() {
+        return measureId;
+    }
 
     public String getName() {
         return name;
@@ -54,7 +62,7 @@ public class Measure implements Serializable {
         if (em != null) {
             List<Measure> measureList = em.createNamedQuery("Measure.findByName")
                     .setParameter("name", name).getResultList();
-            if (measureList != null) {
+            if (measureList != null && measureList.size() > 0) {
                 m = measureList.get(0);
             }
             em.close();

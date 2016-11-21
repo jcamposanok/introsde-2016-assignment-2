@@ -1,6 +1,7 @@
 package introsde.rest.ehealth.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import introsde.rest.ehealth.dao.HealthDao;
 import introsde.rest.ehealth.util.DateParser;
@@ -9,12 +10,13 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.*;
 
 
 @Entity
-@Table(name="\"Person\"")
+@Table(name="Person")
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
 @XmlRootElement
 public class Person implements Serializable {
@@ -22,8 +24,8 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(generator = "sqlite_person")
     @TableGenerator(name = "sqlite_person", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "Person", allocationSize = 1)
-    @Column(name = "idPerson")
-    private int idPerson;
+    @Column(name = "personId")
+    private int personId;
 
     @Column(name = "lastname")
     private String lastname;
@@ -37,19 +39,19 @@ public class Person implements Serializable {
     private Date birthdate;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<PersonMeasure> healthProfile;
+    private List<HealthProfileItem> healthProfile;
 
     public Person() {
     }
 
     // Getters and setters
-    @XmlElement(name = "id")
-    @JsonProperty("id")
-    public int getIdPerson() {
-        return idPerson;
+    @XmlElement(name = "pid")
+    @JsonProperty("pid")
+    public int getPersonId() {
+        return personId;
     }
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
     public String getLastname() {
         return lastname;
@@ -73,23 +75,12 @@ public class Person implements Serializable {
     @XmlElementWrapper(name = "healthProfile")
     @XmlElement(name = "measure")
     @JsonProperty("healthProfile")
-    public List<PersonMeasure> getHealthProfile() {
+    public List<HealthProfileItem> getHealthProfile() {
         return healthProfile;
     }
-    public void setHealthProfile(List<PersonMeasure> healthProfile) {
+    public void setHealthProfile(List<HealthProfileItem> healthProfile) {
         this.healthProfile = healthProfile;
     }
-
-/*
-    public static int getNextId() {
-        int count = 0;
-        EntityManager em = HealthDao.instance.createEntityManager();
-        if (em != null) {
-            count = em.createNativeQuery("Person.findAll").getResultList().size();
-        }
-        return (count + 1);
-    }
-*/
 
     public static List<Person> getAll() {
         List<Person> list = new ArrayList<>();
