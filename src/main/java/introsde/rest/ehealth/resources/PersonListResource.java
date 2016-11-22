@@ -1,6 +1,7 @@
 package introsde.rest.ehealth.resources;
 
 import introsde.rest.ehealth.models.*;
+import introsde.rest.ehealth.representations.HealthProfileItemRepresentation;
 import introsde.rest.ehealth.representations.PersonListRepresentation;
 import introsde.rest.ehealth.representations.PersonRepresentation;
 import introsde.rest.ehealth.util.DateParser;
@@ -112,8 +113,28 @@ public class PersonListResource {
         person.setLastname(requestEntity.getLastname());
         person.setFirstname(requestEntity.getFirstname());
         person.setBirthdate(requestEntity.getBirthdate());
+
         System.out.println("Creating new person...");
         Person newPerson = Person.savePerson(person);
+
+        List<HealthProfileItemRepresentation> healthProfileEntity = requestEntity.getHealthProfile();
+        if (healthProfileEntity != null && healthProfileEntity.size() > 0) {
+            System.out.println("Creating new health profile for person with id '" + newPerson.getPersonId() + "'");
+            for (HealthProfileItemRepresentation healthProfileItemEntity : healthProfileEntity) {
+
+                Measure measure = Measure.getByName(healthProfileItemEntity.getMeasureName());
+                if (measure != null && measure.getMeasureId() > 0) {
+                    HealthProfileItem newHealthProfileItem = new HealthProfileItem();
+                    newHealthProfileItem.setPerson(newPerson);
+                    newHealthProfileItem.setMeasure(measure);
+                    newHealthProfileItem.setValue(healthProfileItemEntity.getValue());
+                    newHealthProfileItem.setCreated(healthProfileItemEntity.getCreated());
+                    newHealthProfileItem.setValid(true);
+                    newHealthProfileItem = HealthProfileItem.saveHealthProfileItem(newHealthProfileItem);
+                }
+
+            }
+        }
 
         PersonRepresentation entity = new PersonRepresentation(newPerson);
         return entity;
