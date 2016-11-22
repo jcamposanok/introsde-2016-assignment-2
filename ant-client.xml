@@ -2,7 +2,7 @@
 
 <project name="introsde-2016-assignment-2" default="execute.client" basedir=".">
     <property file="${basedir}/src/main/resources/project.properties"/>
-    <property name="env" value="local"/>
+    <property name="env" value="heroku"/>
     <property name="buildpath" value="${basedir}/target/${ant.project.name}" />
 
     <target name="execute.client">
