@@ -1,6 +1,7 @@
 package introsde.rest.ehealth.representations;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import introsde.rest.ehealth.models.Measure;
 import introsde.rest.ehealth.models.Person;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "people")
-@JsonRootName("perple")
 public class PersonListRepresentation {
 
     private List<PersonRepresentation> people;
 
     @XmlElement(name = "person")
+    @JsonProperty("people")
     public List<PersonRepresentation> getPeople() {
         return people;
     }

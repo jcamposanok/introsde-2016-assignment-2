@@ -28,6 +28,7 @@ public class PersonRepresentation {
 
     private String firstname;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateParser.DEFAULT_FORMAT)
     private Date birthdate;
 
     private List<HealthProfileItemRepresentation> healthProfile;

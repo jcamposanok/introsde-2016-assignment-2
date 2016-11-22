@@ -1,12 +1,14 @@
 package introsde.rest.ehealth.representations;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import introsde.rest.ehealth.models.HealthProfileItem;
 import introsde.rest.ehealth.models.Measure;
 import introsde.rest.ehealth.models.Person;
+import introsde.rest.ehealth.util.DateParser;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,6 +26,7 @@ public class HealthProfileItemRepresentation {
 
     private Float value;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateParser.DEFAULT_FORMAT)
     private Date created;
 
     private boolean isValid;
@@ -71,6 +74,7 @@ public class HealthProfileItemRepresentation {
         return created;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         return isValid;
     }
