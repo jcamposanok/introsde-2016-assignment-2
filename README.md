@@ -24,12 +24,12 @@ In order to run the code from this repository, you need to have Java and Maven i
 For Heroku deployment, the following commands have to be executed in the local source code root directory:
 
 * heroku login
-* heroku create _<app_name>_
+* heroku create _\[app_name\]_
 * heroku plugins:install heroku-cli-deploy
 
 Generate the war inside the application directory. Change to the war location and then run the following command to upload:
 
-* heroku war:deploy _<war_file_name>_.war
+* heroku war:deploy _\[war_file_name\]_.war
 
 ## The REST API server
 
@@ -37,13 +37,13 @@ This project can be run on a local Tomcat instance, or deployed to Heroku with a
 
 If running locally, the server will use sqlite.JDBC with Eclipselink. 
 
-For Heroku, automatic integration with PostgreSQL has been included. Make sure you run "heroku addons:create heroku-postgresql:hobby-dev" through the heroku-cli terminal to create a new DB instance and "heroku pg:credentials DATABASE_URL --app _<app_name>_" to retrieve the database credentials.
+For Heroku, automatic integration with PostgreSQL has been included. Make sure you run "heroku addons:create heroku-postgresql:hobby-dev" through the heroku-cli terminal to create a new DB instance and "heroku pg:credentials DATABASE_URL --app _\[app_name\]_" to retrieve the database credentials.
 
 To access the Heroku test server visit [https://introsde2016-jcamposanok-a2.herokuapp.com/api/hello](https://introsde2016-jcamposanok-a2.herokuapp.com/api/hello)
 
 ## The client app
 
-Run the execute.client target inside the ant-client.xml file (ant execute.client). This will compile all the necessary Java code and provide the test results. 
+Run the execute.client target inside the [ant-client.xml](ant-client.xml) file (ant execute.client). This will compile all the necessary Java code and provide the test results. 
 
 Make sure you have set up the corresponding environment variable (env) to "heroku" or "local", depending on the server you want to use.
 
