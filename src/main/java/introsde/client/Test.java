@@ -91,8 +91,8 @@ public class Test {
     
     private static void executeTestPlan(String mediaType, String logFile) {
         String requestUrl;
-        PersonRepresentation firstPerson;
-        PersonRepresentation lastPerson;
+        PersonRepresentation firstPerson = new PersonRepresentation();
+        PersonRepresentation lastPerson = new PersonRepresentation();
         MeasureTypesRepresentation measureTypes;
         Response res1, res2, res3, res4, res51, res52, res6, res7;
 
@@ -104,32 +104,37 @@ public class Test {
             printRequest(1, requestUrl, HttpMethod.GET, mediaType, logFile);
             res1 = get(requestUrl, mediaType);
             PersonListRepresentation people = res1.readEntity(PersonListRepresentation.class);
-            printResponse(res1, people.getPeople().size() >= 2, logFile);
-            firstPerson = people.getPeople().get(0);
-            lastPerson = people.getPeople().get(people.getPeople().size() - 1);
+            printResponse(res1, people != null && people.getPeople().size() >= 2, logFile);
+            if (people != null && people.getPeople().size() >= 2) {
+                firstPerson = people.getPeople().get(0);
+                lastPerson = people.getPeople().get(people.getPeople().size() - 1);
+            }
             res1.close();
 
-            // Step 3.2
+            if (firstPerson != null && firstPerson.getPersonId() > 0) {
 
-            requestUrl = "person/" + String.valueOf(firstPerson.getPersonId());
-            printRequest(2, requestUrl, HttpMethod.GET, mediaType, logFile);
-            res2 = get(requestUrl, mediaType);
-            printResponse(res2, res2.getStatus() == 200 || res2.getStatus() == 202, logFile);
-            res2.close();
+                // Step 3.2
 
-            // Step 3.3
+                requestUrl = "person/" + String.valueOf(firstPerson.getPersonId());
+                printRequest(2, requestUrl, HttpMethod.GET, mediaType, logFile);
+                res2 = get(requestUrl, mediaType);
+                printResponse(res2, res2.getStatus() == 200 || res2.getStatus() == 202, logFile);
+                res2.close();
 
-            requestUrl = "person/" + String.valueOf(firstPerson.getPersonId());
-            printRequest(3, requestUrl, HttpMethod.PUT, mediaType, logFile);
-            String oldName = firstPerson.getFirstname();
-            String newNameSeq = String.valueOf(Math.random());
-            String newName = oldName + newNameSeq.substring(newNameSeq.length() -1);
-            firstPerson.setFirstname(newName);
-            Entity firstPersonEntity = Entity.entity(firstPerson, mediaType);
-            res3 = put(requestUrl, firstPersonEntity, mediaType);
-            PersonRepresentation updatedFirstPerson = res3.readEntity(PersonRepresentation.class);
-            printResponse(res3, !updatedFirstPerson.getFirstname().equals(oldName), logFile);
-            res3.close();
+                // Step 3.3
+
+                requestUrl = "person/" + String.valueOf(firstPerson.getPersonId());
+                printRequest(3, requestUrl, HttpMethod.PUT, mediaType, logFile);
+                String oldName = firstPerson.getFirstname();
+                String newNameSeq = String.valueOf(Math.random());
+                String newName = oldName + newNameSeq.substring(newNameSeq.length() - 1);
+                firstPerson.setFirstname(newName);
+                Entity firstPersonEntity = Entity.entity(firstPerson, mediaType);
+                res3 = put(requestUrl, firstPersonEntity, mediaType);
+                PersonRepresentation updatedFirstPerson = res3.readEntity(PersonRepresentation.class);
+                printResponse(res3, !updatedFirstPerson.getFirstname().equals(oldName), logFile);
+                res3.close();
+            }
 
             // Step 3.4
 
