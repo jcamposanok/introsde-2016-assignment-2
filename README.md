@@ -1,6 +1,6 @@
-# Introduction to Service Design and Engineering (fall 2016) - Assignment 1
+# Introduction to Service Design and Engineering (fall 2016) - Assignment 2
 
-This repository contains the solution for the first assignment of the course Introduction to Service Design and Engineering from the University of Trento (fall semester, 2016).
+This repository contains the solution for the second assignment of the course Introduction to Service Design and Engineering from the University of Trento (fall semester, 2016).
 
 The following topics / technologies are covered in this lab assignment:
 - REST
