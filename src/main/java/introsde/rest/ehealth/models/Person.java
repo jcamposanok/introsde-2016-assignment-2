@@ -17,7 +17,7 @@ import java.util.*;
 
 @Entity
 @Table(name="Person")
-@NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
+@NamedQuery(name="Person.findAll", query="SELECT p FROM Person p ORDER BY p.personId")
 @XmlRootElement
 public class Person implements Serializable {
 

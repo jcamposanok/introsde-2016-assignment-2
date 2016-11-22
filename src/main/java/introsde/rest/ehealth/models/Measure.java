@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="Measure")
 @NamedQueries({
-        @NamedQuery(name="Measure.findAll", query="SELECT m FROM Measure m"),
+        @NamedQuery(name="Measure.findAll", query="SELECT m FROM Measure m ORDER BY m.measureId"),
         @NamedQuery(name = "Measure.findByName", query = "SELECT m FROM Measure m WHERE m.name = :name")
 })
 @XmlRootElement

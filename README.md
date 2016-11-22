@@ -11,11 +11,13 @@ The following topics / technologies are covered in this lab assignment:
 
 ## Getting Started
 
-The project is composed of two parts, a REST server (package introsde.rest) and a test client (package introsde.client).
+The project was developed individually and is composed of two parts, a REST server (package [introsde.rest](src/main/java/introsde/rest)) and a test client app (package [introsde.client](src/main/java/introsde/client)).
 
 All the source code was developed from scratch using IntelliJ IDEA 2016.2.5. The dependencies are managed with Maven.
 
-To test the source code corresponding to the exercise cases, simply run the included Ant ant-client.xml file. For a step by step explanation, review the tests scenarios described in the [src/main/java/introsde/client/Test.java](src/main/java/introsde/client/Test.java)  class source code. 
+In the REST server, the Health Profile is built dynamically (i.e. supports multiple types of measures) and the extra requests (R#10 - R#12) have been included.
+
+To test the source code corresponding to the exercise cases, simply run the included Ant ant-client.xml file. For a step by step explanation, review the tests scenarios described in the [src/main/java/introsde/client/Test.java](src/main/java/introsde/client/Test.java) class source code.
 
 ### Prerequisites
 
@@ -23,13 +25,17 @@ In order to run the code from this repository, you need to have Java and Maven i
 
 For Heroku deployment, the following commands have to be executed in the local source code root directory:
 
-* heroku login
-* heroku create _\[app_name\]_
-* heroku plugins:install heroku-cli-deploy
+```
+$ heroku login
+$ heroku create [app_name]
+$ heroku plugins:install heroku-cli-deploy
+````
 
 Generate the war inside the application directory. Change to the war location and then run the following command to upload:
 
-* heroku war:deploy _\[war_file_name\]_.war
+```
+$ heroku war:deploy [war_file_name].war
+```
 
 ## The REST API server
 
@@ -37,7 +43,17 @@ This project can be run on a local Tomcat instance, or deployed to Heroku with a
 
 If running locally, the server will use sqlite.JDBC with Eclipselink. 
 
-For Heroku, automatic integration with PostgreSQL has been included. Make sure you run "heroku addons:create heroku-postgresql:hobby-dev" through the heroku-cli terminal to create a new DB instance and "heroku pg:credentials DATABASE_URL --app _\[app_name\]_" to retrieve the database credentials.
+For Heroku, automatic integration with PostgreSQL has been included. Make sure you run the following command through the heroku-cli terminal to create a new DB instance:
+ 
+```
+$ heroku addons:create heroku-postgresql:hobby-dev" 
+```
+
+Once the database has been configured, the following command can be used to retrieve the connection credentials:
+
+```
+$ heroku pg:credentials DATABASE_URL --app [app_name]
+```
 
 To access the Heroku test server visit [https://introsde2016-jcamposanok-a2.herokuapp.com/api/hello](https://introsde2016-jcamposanok-a2.herokuapp.com/api/hello)
 

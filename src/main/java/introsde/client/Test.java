@@ -174,13 +174,16 @@ public class Test {
             res6 = get(requestUrl, mediaType);
             measureTypes = res6.readEntity(MeasureTypesRepresentation.class);
             printResponse(res6, measureTypes.getMeasureTypes().size() > 2, logFile);
+            Measure savedMeasure = new Measure();
+            if (measureTypes != null && measureTypes.getMeasureTypes().size() > 0) {
+                savedMeasure = measureTypes.getMeasureTypes().get(0);
+            }
             res6.close();
 
             // Step 3.7
 
             MeasureHistoryRepresentation measureHistory;
             List<HealthProfileItem> savedMeasureHistory = new ArrayList<>();
-            Measure savedMeasure = new Measure();
             for (Measure m : measureTypes.getMeasureTypes()) {
                 requestUrl = "person/" + String.valueOf(firstPerson.getPersonId()) + "/" + m.getName();
                 printRequest(6, requestUrl, HttpMethod.GET, mediaType, logFile);
@@ -190,7 +193,6 @@ public class Test {
                 if (hasMeasureHistory) {
                     printResponse(res7, hasMeasureHistory, logFile);
                     savedMeasureHistory = measureHistory.getHistory();
-                    savedMeasure = m;
                     res7.close();
                     break;
                 }
@@ -271,37 +273,41 @@ public class Test {
 
             }
 
-            // Step 3.11
+            if (savedMeasure != null && savedMeasure.getMeasureId() > 0) {
 
-            Format formatter = new SimpleDateFormat(DateParser.DEFAULT_FORMAT);
-            Date after = new SimpleDateFormat(DateParser.DEFAULT_FORMAT).parse("2016-09-01");
-            Date before = new SimpleDateFormat(DateParser.DEFAULT_FORMAT).parse("2016-12-31");
-            requestUrl = "person/" + String.valueOf(firstPerson.getPersonId()) + "/" + savedMeasure.getName();
-            String paramStr = "?before=" + formatter.format(before) + "&after=" + formatter.format(after);
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("before", formatter.format(before));
-            params.put("after", formatter.format(after));
-            printRequest(11, requestUrl + paramStr, HttpMethod.GET, mediaType, logFile);
-            Response res11 = get(requestUrl, mediaType, params);
-            measureHistory = res11.readEntity(MeasureHistoryRepresentation.class);
-            printResponse(res11, measureHistory != null && measureHistory.getHistory().size() > 0, logFile);
-            res11.close();
+                // Step 3.11
 
-            // Step 3.12
+                Format formatter = new SimpleDateFormat(DateParser.DEFAULT_FORMAT);
+                Date after = new SimpleDateFormat(DateParser.DEFAULT_FORMAT).parse("2016-09-01");
+                Date before = new SimpleDateFormat(DateParser.DEFAULT_FORMAT).parse("2016-12-31");
+                requestUrl = "person/" + String.valueOf(firstPerson.getPersonId()) + "/" + savedMeasure.getName();
+                String paramStr = "?before=" + formatter.format(before) + "&after=" + formatter.format(after);
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("before", formatter.format(before));
+                params.put("after", formatter.format(after));
+                printRequest(11, requestUrl + paramStr, HttpMethod.GET, mediaType, logFile);
+                Response res11 = get(requestUrl, mediaType, params);
+                measureHistory = res11.readEntity(MeasureHistoryRepresentation.class);
+                printResponse(res11, measureHistory != null && measureHistory.getHistory().size() > 0, logFile);
+                res11.close();
 
-            int max = 70;
-            int min = 65;
-            requestUrl = "person";
-            paramStr = "?measureType=" + savedMeasure.getName() + "&max=" + String.valueOf(max) + "&min=" + String.valueOf(min);
-            params.clear();
-            params.put("measureType", savedMeasure.getName());
-            params.put("max", String.valueOf(max));
-            params.put("min", String.valueOf(min));
-            printRequest(12, requestUrl + paramStr, HttpMethod.GET, mediaType, logFile);
-            Response res12 = get(requestUrl, mediaType, params);
-            people = res12.readEntity(PersonListRepresentation.class);
-            printResponse(res12, res12.getStatus() == Response.Status.OK.getStatusCode() && people.getPeople().size() > 0, logFile);
-            res12.close();
+                // Step 3.12
+
+                int max = 70;
+                int min = 65;
+                requestUrl = "person";
+                paramStr = "?measureType=" + savedMeasure.getName() + "&max=" + String.valueOf(max) + "&min=" + String.valueOf(min);
+                params.clear();
+                params.put("measureType", savedMeasure.getName());
+                params.put("max", String.valueOf(max));
+                params.put("min", String.valueOf(min));
+                printRequest(12, requestUrl + paramStr, HttpMethod.GET, mediaType, logFile);
+                Response res12 = get(requestUrl, mediaType, params);
+                people = res12.readEntity(PersonListRepresentation.class);
+                printResponse(res12, res12.getStatus() == Response.Status.OK.getStatusCode() && people.getPeople().size() > 0, logFile);
+                res12.close();
+
+            }
 
         }
         catch (Exception e) {
