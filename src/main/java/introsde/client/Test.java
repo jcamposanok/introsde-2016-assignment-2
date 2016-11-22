@@ -310,7 +310,8 @@ public class Test {
     }
 
     private static void printRequest(int requestNum, String path, String httpMethod, String mediaType, String logFilePath) {
-        String message = "Request #" + requestNum + ": "
+        String message = System.lineSeparator()
+                + "Request #" + requestNum + ": "
                 + httpMethod + " " + path +
                 " Accept: " + mediaType +
                 " Content-type: " + mediaType;
@@ -325,7 +326,8 @@ public class Test {
     }
 
     private static void printResponse(Response res, boolean result, String logFilePath) {
-        String message = "=> Result: " + (result ? "OK" : "ERROR") + System.lineSeparator() 
+        String message = System.lineSeparator()
+                + "=> Result: " + (result ? "OK" : "ERROR") + System.lineSeparator()
                 + "=> HTTP Status: " + String.valueOf(res.getStatus()) + System.lineSeparator() 
                 + res.readEntity(String.class);
         System.out.println(message);

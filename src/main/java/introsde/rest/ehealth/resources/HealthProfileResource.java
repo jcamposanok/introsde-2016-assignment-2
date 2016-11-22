@@ -103,7 +103,7 @@ public class HealthProfileResource {
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public HealthProfileItemRepresentation newHealthProfileItem(HealthProfileItemRepresentation healthProfileItemRepresentation) throws IOException {
+    public HealthProfileItemRepresentation newHealthProfileItem(HealthProfileItemRepresentation requestEntity) throws IOException {
         System.out.println("Checking if a value currently exists for measure '" + this.measureType + "' and person with id " + this.personId);
 
         HealthProfileItem outdatedHealthProfileItem = HealthProfileItem.getCurrentByPersonAndType(this.personId, this.measureType);
@@ -113,8 +113,8 @@ public class HealthProfileResource {
             HealthProfileItem newHealthProfileItem = new HealthProfileItem();
             newHealthProfileItem.setPerson(outdatedHealthProfileItem.getPerson());
             newHealthProfileItem.setMeasure(outdatedHealthProfileItem.getMeasure());
-            newHealthProfileItem.setValue(healthProfileItemRepresentation.getValue());
-            newHealthProfileItem.setCreated(healthProfileItemRepresentation.getCreated());
+            newHealthProfileItem.setValue(requestEntity.getValue());
+            newHealthProfileItem.setCreated(requestEntity.getCreated());
             newHealthProfileItem.setValid(true);
             newHealthProfileItem = HealthProfileItem.saveHealthProfileItem(newHealthProfileItem);
 
@@ -131,8 +131,8 @@ public class HealthProfileResource {
         Measure measure = Measure.getByName(this.measureType);
         newHealthProfileItem.setPerson(person);
         newHealthProfileItem.setMeasure(measure);
-        newHealthProfileItem.setValue(healthProfileItemRepresentation.getValue());
-        newHealthProfileItem.setCreated(healthProfileItemRepresentation.getCreated());
+        newHealthProfileItem.setValue(requestEntity.getValue());
+        newHealthProfileItem.setCreated(requestEntity.getCreated());
         newHealthProfileItem.setValid(true);
         newHealthProfileItem = HealthProfileItem.saveHealthProfileItem(newHealthProfileItem);
         HealthProfileItemRepresentation entity = new HealthProfileItemRepresentation(newHealthProfileItem);

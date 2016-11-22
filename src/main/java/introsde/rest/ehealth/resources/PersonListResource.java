@@ -91,12 +91,13 @@ public class PersonListResource {
                           @FormParam("firstname") String firstname,
                           @FormParam("birthdate") String birthdate,
                           @Context HttpServletResponse servletResponse) throws IOException {
-        Person p = new Person();
-        p.setLastname(lastname);
-        p.setFirstname(firstname);
-        p.setBirthdate(new DateParser.RequestParam(birthdate).parseFromString());
+        Person person = new Person();
+        person.setLastname(lastname);
+        person.setFirstname(firstname);
+        person.setBirthdate(new DateParser.RequestParam(birthdate).parseFromString());
 
-        PersonRepresentation entity = this.newPerson(p);
+        PersonRepresentation entity = new PersonRepresentation(person);
+        entity = this.newPerson(entity);
 
         URI uri = UriBuilder.fromUri("/person/" + String.valueOf(entity.getPersonId())).build();
         return Response.seeOther(uri).build();
@@ -105,34 +106,14 @@ public class PersonListResource {
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public PersonRepresentation newPerson(Person person) throws IOException {
-        // List<HealthProfileItem> healthProfile;
+    public PersonRepresentation newPerson(PersonRepresentation requestEntity) throws IOException {
 
+        Person person = new Person();
+        person.setLastname(requestEntity.getLastname());
+        person.setFirstname(requestEntity.getFirstname());
+        person.setBirthdate(requestEntity.getBirthdate());
         System.out.println("Creating new person...");
         Person newPerson = Person.savePerson(person);
-
-        /*
-        healthProfile = newPerson.getHealthProfile();
-
-        if (healthProfile != null && healthProfile.size() > 0) {
-            System.out.println("Creating health profile for the new person...");
-            for (int i = 0; i < healthProfile.size(); i++) {
-                HealthProfileItem hp = healthProfile.get(i);
-                Measure m = Measure.getByName(hp.getMeasureName());
-                if (m != null) {
-                    hp.setMeasure(m);
-                    hp.setPerson(newPerson);
-                    if (hp.getCreated() == null) {
-                        hp.setCreated(new DateParser.RequestParam().parseFromString());
-                    }
-                    hp.setValid(true);
-                    hp = HealthProfileItem.updateHealthProfileItem(hp);
-                    healthProfile.set(i, hp);
-                }
-            }
-            newPerson.setHealthProfile(healthProfile);
-        }
-        */
 
         PersonRepresentation entity = new PersonRepresentation(newPerson);
         return entity;
