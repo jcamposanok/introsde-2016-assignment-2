@@ -1,0 +1,61 @@
+
+Request #1: GET person Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"people":[{"lastname":"Trump","firstname":"Donald7","birthdate":"1946-06-14","pid":1,"healthProfile":[{"value":190.0,"created":"2016-11-22","mid":3,"name":"height"}]},{"lastname":"Norris","firstname":"Chuck","birthdate":"1940-03-10","pid":2,"healthProfile":[{"value":178.0,"created":"2016-11-22","mid":2,"name":"height"},{"value":90.0,"created":"2011-12-08","mid":19,"name":"weight"}]},{"lastname":"Camposano","firstname":"José Carlos","birthdate":"1989-03-10","pid":5,"healthProfile":[]}]}
+Request #2: GET person/1 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"lastname":"Trump","firstname":"Donald7","birthdate":"1946-06-14","pid":1,"healthProfile":[{"value":190.0,"created":"2016-11-22","mid":3,"name":"height"}]}
+Request #3: PUT person/1 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"lastname":"Trump","firstname":"Donald73","birthdate":"1946-06-14","pid":1,"healthProfile":[{"value":190.0,"created":"2016-11-22","mid":3,"name":"height"}]}
+Request #4: POST person Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"lastname":"Norris","firstname":"Chuck","birthdate":"1940-03-09","pid":19,"healthProfile":[]}
+Request #5: DELETE person/19 Accept: application/json Content-type: application/json
+Request #2: GET person/19 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 404
+GET: Person with id 19 not found
+Request #9: GET measureTypes Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"measureType":[{"name":"weight"},{"name":"height"},{"name":"bloodpressure"}]}
+Request #6: GET person/1/weight Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"measure":[{"value":107.0,"created":"2016-11-22","valid":false,"mid":4},{"value":72.0,"created":"2011-12-08","valid":false,"mid":12},{"value":90.0,"created":"2011-12-08","valid":false,"mid":11},{"value":72.0,"created":"2011-12-08","valid":false,"mid":16},{"value":90.0,"created":"2011-12-08","valid":false,"mid":15},{"value":72.0,"created":"2011-12-08","valid":false,"mid":22},{"value":90.0,"created":"2011-12-08","valid":false,"mid":21},{"value":72.0,"created":"2011-12-08","valid":false,"mid":24},{"value":90.0,"created":"2011-12-08","valid":false,"mid":23},{"value":72.0,"created":"2011-12-08","valid":false,"mid":32},{"value":90.0,"created":"2011-12-08","valid":true,"mid":31}]}
+Request #6: GET person/5/weight Accept: application/json Content-type: application/json
+Request #6: GET person/5/height Accept: application/json Content-type: application/json
+Request #6: GET person/5/bloodpressure Accept: application/json Content-type: application/json
+Request #7: GET person/1/weight/4 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"value":107.0,"created":"2016-11-22","mid":4,"name":"weight"}
+Request #6: GET person/1/weight Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"measure":[{"value":107.0,"created":"2016-11-22","valid":false,"mid":4},{"value":72.0,"created":"2011-12-08","valid":false,"mid":12},{"value":90.0,"created":"2011-12-08","valid":false,"mid":11},{"value":72.0,"created":"2011-12-08","valid":false,"mid":16},{"value":90.0,"created":"2011-12-08","valid":false,"mid":15},{"value":72.0,"created":"2011-12-08","valid":false,"mid":22},{"value":90.0,"created":"2011-12-08","valid":false,"mid":21},{"value":72.0,"created":"2011-12-08","valid":false,"mid":24},{"value":90.0,"created":"2011-12-08","valid":false,"mid":23},{"value":72.0,"created":"2011-12-08","valid":false,"mid":32},{"value":90.0,"created":"2011-12-08","valid":true,"mid":31}]}
+Request #8: POST person/1/weight Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"value":72.0,"created":"2011-12-08","mid":33,"name":"weight"}
+Request #6: GET person/1/weight Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"measure":[{"value":107.0,"created":"2016-11-22","valid":false,"mid":4},{"value":72.0,"created":"2011-12-08","valid":false,"mid":12},{"value":90.0,"created":"2011-12-08","valid":false,"mid":11},{"value":72.0,"created":"2011-12-08","valid":false,"mid":16},{"value":90.0,"created":"2011-12-08","valid":false,"mid":15},{"value":72.0,"created":"2011-12-08","valid":false,"mid":22},{"value":90.0,"created":"2011-12-08","valid":false,"mid":21},{"value":72.0,"created":"2011-12-08","valid":false,"mid":24},{"value":90.0,"created":"2011-12-08","valid":false,"mid":23},{"value":72.0,"created":"2011-12-08","valid":false,"mid":32},{"value":72.0,"created":"2011-12-08","valid":true,"mid":33},{"value":90.0,"created":"2011-12-08","valid":false,"mid":31}]}
+Request #10: PUT person/1/weight/33 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"value":90.0,"created":"2011-12-08","mid":33,"name":"weight"}
+Request #11: GET person/1/weight?before=2016-12-31&after=2016-09-01 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"measure":[{"value":107.0,"created":"2016-11-22","valid":false,"mid":4},{"value":72.0,"created":"2011-12-08","valid":false,"mid":12},{"value":90.0,"created":"2011-12-08","valid":false,"mid":11},{"value":72.0,"created":"2011-12-08","valid":false,"mid":16},{"value":90.0,"created":"2011-12-08","valid":false,"mid":15},{"value":72.0,"created":"2011-12-08","valid":false,"mid":22},{"value":90.0,"created":"2011-12-08","valid":false,"mid":21},{"value":72.0,"created":"2011-12-08","valid":false,"mid":24},{"value":90.0,"created":"2011-12-08","valid":false,"mid":23},{"value":72.0,"created":"2011-12-08","valid":false,"mid":32},{"value":90.0,"created":"2011-12-08","valid":false,"mid":31},{"value":72.0,"created":"2011-12-08","valid":false,"mid":34},{"value":90.0,"created":"2011-12-08","valid":true,"mid":33}]}
+Request #12: GET person?measureType=weight&max=70&min=65 Accept: application/json Content-type: application/json
+=> Result: OK
+=> HTTP Status: 200
+{"people":[{"lastname":"Trump","firstname":"Donald73","birthdate":"1946-06-14","pid":1,"healthProfile":[{"value":190.0,"created":"2016-11-22","mid":3,"name":"height"}]},{"lastname":"Norris","firstname":"Chuck","birthdate":"1940-03-10","pid":2,"healthProfile":[{"value":178.0,"created":"2016-11-22","mid":2,"name":"height"},{"value":90.0,"created":"2011-12-08","mid":19,"name":"weight"}]},{"lastname":"Camposano","firstname":"José Carlos","birthdate":"1989-03-10","pid":5,"healthProfile":[]}]}

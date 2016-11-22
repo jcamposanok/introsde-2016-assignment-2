@@ -46,7 +46,7 @@ If running locally, the server will use sqlite.JDBC with Eclipselink.
 For Heroku, automatic integration with PostgreSQL has been included. Make sure you run the following command through the heroku-cli terminal to create a new DB instance:
  
 ```
-$ heroku addons:create heroku-postgresql:hobby-dev" 
+$ heroku addons:create heroku-postgresql:hobby-dev
 ```
 
 Once the database has been configured, the following command can be used to retrieve the connection credentials:

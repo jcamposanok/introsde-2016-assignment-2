@@ -273,7 +273,7 @@ public class Test {
 
             }
 
-            if (savedMeasure != null && savedMeasure.getMeasureId() > 0) {
+            if (savedMeasure != null) {
 
                 // Step 3.11
 

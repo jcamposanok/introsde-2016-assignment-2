@@ -1,0 +1,61 @@
+
+Request #1: GET person Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><people><person><birthdate>1946-06-14T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>3</mid><name>height</name><value>190.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><name>weight</name><value>90.0</value></measure></healthProfile><firstname>Donald</firstname><lastname>Trump</lastname><pid>1</pid></person><person><birthdate>1940-03-10T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>2</mid><name>height</name><value>178.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>19</mid><name>weight</name><value>90.0</value></measure></healthProfile><firstname>Chuck</firstname><lastname>Norris</lastname><pid>2</pid></person><person><birthdate>1989-03-10T00:00:00Z</birthdate><healthProfile/><firstname>José Carlos</firstname><lastname>Camposano</lastname><pid>5</pid></person></people>
+Request #2: GET person/1 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><person><birthdate>1946-06-14T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>3</mid><name>height</name><value>190.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><name>weight</name><value>90.0</value></measure></healthProfile><firstname>Donald</firstname><lastname>Trump</lastname><pid>1</pid></person>
+Request #3: PUT person/1 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><person><birthdate>1946-06-14T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>3</mid><name>height</name><value>190.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><name>weight</name><value>90.0</value></measure></healthProfile><firstname>Donald7</firstname><lastname>Trump</lastname><pid>1</pid></person>
+Request #4: POST person Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><person><birthdate>1940-03-09T23:00:00Z</birthdate><healthProfile/><firstname>Chuck</firstname><lastname>Norris</lastname><pid>18</pid></person>
+Request #5: DELETE person/18 Accept: application/xml Content-type: application/xml
+Request #2: GET person/18 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 404
+GET: Person with id 18 not found
+Request #9: GET measureTypes Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measureTypes><measureType><name>weight</name></measureType><measureType><name>height</name></measureType><measureType><name>bloodpressure</name></measureType></measureTypes>
+Request #6: GET person/1/weight Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measureHistory><measure><created>2016-11-22T00:00:00Z</created><mid>4</mid><valid>false</valid><value>107.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>12</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>11</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>16</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>15</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>22</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>21</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>24</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><valid>true</valid><value>90.0</value></measure></measureHistory>
+Request #6: GET person/5/weight Accept: application/xml Content-type: application/xml
+Request #6: GET person/5/height Accept: application/xml Content-type: application/xml
+Request #6: GET person/5/bloodpressure Accept: application/xml Content-type: application/xml
+Request #7: GET person/1/weight/4 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measure><created>2016-11-22T00:00:00Z</created><mid>4</mid><name>weight</name><value>107.0</value></measure>
+Request #6: GET person/1/weight Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measureHistory><measure><created>2016-11-22T00:00:00Z</created><mid>4</mid><valid>false</valid><value>107.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>12</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>11</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>16</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>15</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>22</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>21</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>24</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><valid>true</valid><value>90.0</value></measure></measureHistory>
+Request #8: POST person/1/weight Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measure><created>2011-12-08T23:00:00Z</created><mid>31</mid><name>weight</name><value>72.0</value></measure>
+Request #6: GET person/1/weight Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measureHistory><measure><created>2016-11-22T00:00:00Z</created><mid>4</mid><valid>false</valid><value>107.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>12</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>11</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>16</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>15</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>22</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>21</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>24</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T23:00:00Z</created><mid>31</mid><valid>true</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><valid>false</valid><value>90.0</value></measure></measureHistory>
+Request #10: PUT person/1/weight/31 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measure><created>2011-12-08T23:00:00Z</created><mid>31</mid><name>weight</name><value>90.0</value></measure>
+Request #11: GET person/1/weight?before=2016-12-31&after=2016-09-01 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><measureHistory><measure><created>2016-11-22T00:00:00Z</created><mid>4</mid><valid>false</valid><value>107.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>12</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>11</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>16</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>15</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>22</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>21</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>24</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>23</mid><valid>false</valid><value>90.0</value></measure><measure><created>2011-12-08T23:00:00Z</created><mid>32</mid><valid>false</valid><value>72.0</value></measure><measure><created>2011-12-08T23:00:00Z</created><mid>31</mid><valid>true</valid><value>90.0</value></measure></measureHistory>
+Request #12: GET person?measureType=weight&max=70&min=65 Accept: application/xml Content-type: application/xml
+=> Result: OK
+=> HTTP Status: 200
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><people><person><birthdate>1946-06-14T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>3</mid><name>height</name><value>190.0</value></measure></healthProfile><firstname>Donald7</firstname><lastname>Trump</lastname><pid>1</pid></person><person><birthdate>1940-03-10T00:00:00Z</birthdate><healthProfile><measure><created>2016-11-22T00:00:00Z</created><mid>2</mid><name>height</name><value>178.0</value></measure><measure><created>2011-12-08T00:00:00Z</created><mid>19</mid><name>weight</name><value>90.0</value></measure></healthProfile><firstname>Chuck</firstname><lastname>Norris</lastname><pid>2</pid></person><person><birthdate>1989-03-10T00:00:00Z</birthdate><healthProfile/><firstname>José Carlos</firstname><lastname>Camposano</lastname><pid>5</pid></person></people>
