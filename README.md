@@ -15,7 +15,7 @@ The project is composed of two parts, a REST server (package introsde.rest) and 
 
 All the source code was developed from scratch using IntelliJ IDEA 2016.2.5. The dependencies are managed with Maven.
 
-To test the source code corresponding to the exercise cases, simply run the included Ant ant-client.xml file. For a step by step explanation, review the tests scenarios described in the [src/main/java/introsde.client/Test.java](src/main/java/introsde.client/Test.java)  class source code. 
+To test the source code corresponding to the exercise cases, simply run the included Ant ant-client.xml file. For a step by step explanation, review the tests scenarios described in the [src/main/java/introsde/client/Test.java](src/main/java/introsde/client/Test.java)  class source code. 
 
 ### Prerequisites
 
